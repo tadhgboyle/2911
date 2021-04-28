@@ -1,3 +1,41 @@
-<nav>
-    <!-- Do navbar things here -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('list_expenses') }}">Expenses</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link {% if page_name == 'list_expenses' %} active {% endif %}" href="{{ url_for('list_expenses') }}">Home</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if page_name == 'add_expense' %} active {% endif %}" href="#" role="button" data-bs-toggle="dropdown">
+                        Expenses
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item {% if page_name == 'add_expense' %} active {% endif %}" href="{{ url_for('add_expense') }}">Add Expense</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if 'categ' in page_name %} active {% endif %}" href="#" role="button" data-bs-toggle="dropdown">
+                        Categories
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item {% if page_name == 'list_categories' %} active {% endif %}" href="{{ url_for('list_categories') }}">List Categories</a></li>
+                        <li><a class="dropdown-item {% if page_name == 'add_category' %} active {% endif %}" href="{{ url_for('add_category') }}">Create Category</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link {% if page_name == 'statistics' %} active {% endif %}" href="{{ url_for('statistics') }}">Statistics</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
 </nav>
