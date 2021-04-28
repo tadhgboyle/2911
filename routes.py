@@ -1,10 +1,33 @@
 from main import app
 from flask import render_template
 
-
 @app.route('/')
 def list_expenses():
-   return render_template('views/list_expenses.html', page_name='list_expenses', page_title='List Expenses')
+    expenses = [
+        {
+            'id': 1,
+            'name': 'Expense 1',
+            'category': 'Food',
+            'amount': 50.44,
+            'date': '2002-11-23'
+        },
+        {
+            'id': 2,
+            'name': 'Expense 2',
+            'category': 'Shopping',
+            'amount': 22.53,
+            'date': '2002-11-24'
+        },
+        {
+            'id': 3,
+            'name': 'Expense 3',
+            'category': 'Food',
+            'amount': 74.33,
+            'date': '2002-11-24'
+        }
+    ]
+
+    return render_template('views/list_expenses.html', page_name='list_expenses', page_title='List Expenses', expenses=expenses)
 
 
 @app.route('/add-expense')
@@ -12,14 +35,14 @@ def add_expense():
     return render_template('views/add_expense.html', page_name='add_expense', page_title='Add Expense')
 
 
-@app.route('/edit-expense')
-def edit_expense():
+@app.route('/edit-expense/<int:expense_id>')
+def edit_expense(expense_id):
     return render_template('views/edit_expense.html', page_name='edit_expense', page_title='Edit Expense')
 
 
-@app.route('/delete-expense')
-def delete_expense():
-    return render_template('views/delete_expense.html', page_name='delete_expense', page_title='Delete Expense')
+@app.route('/delete-expense/<int:expense_id>')
+def delete_expense(expense_id):
+    return list_expenses()
 
 
 @app.route('/list-categories')
@@ -32,14 +55,14 @@ def add_category():
     return render_template('views/add_category.html', page_name='add_category', page_title='Add Category')
 
 
-@app.route('/edit-category')
-def edit_category():
+@app.route('/edit-category/<int:category_id>')
+def edit_category(category_id):
     return render_template('views/edit_category.html', page_name='edit_category', page_title='Edit Category')
 
 
-@app.route('/delete-category')
-def delete_category():
-    return render_template('views/delete_category.html', page_name='delete_category', page_title='Delete Category')
+@app.route('/delete-category/<int:category_id>')
+def delete_category(category_id):
+    return list_categories()
 
 
 @app.route('/statistics')
