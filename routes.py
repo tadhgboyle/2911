@@ -47,7 +47,30 @@ def delete_expense(expense_id):
 
 @app.route('/list-categories')
 def list_categories():
-    return render_template('views/list_categories.html', page_name='list_categories', page_title='List Categories')
+    categories = [
+        {
+            'id': 1,
+            'name': 'Food'
+        },
+        {
+            'id': 2,
+            'name': 'Shopping'
+        },
+        {
+            'id': 3,
+            'name': 'Automobile'
+        },
+        {
+            'id': 4,
+            'name': 'Entertainment'
+        },
+        {
+            'id': 5,
+            'name': 'Bills'
+        }
+    ]
+
+    return render_template('views/list_categories.html', page_name='list_categories', page_title='List Categories', categories=categories)
 
 
 @app.route('/add-category')
