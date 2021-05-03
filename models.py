@@ -19,6 +19,7 @@ class Expense(db.Document):
         """ Get corresponding category model for this expense """
         return Category.objects.get(id=self.category_id)
 
+
 class Category(db.Document):
 
     name = db.StringField(required=True, max_length=64)

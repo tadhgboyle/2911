@@ -6,7 +6,7 @@ def list_categories(error=None, success=None):
 
 
 def add_category():
-    return render_template('views/add_category.html', page_name='add_category', page_title='Add Category')
+    return render_template('views/category_form.html', page_name='add_category', page_title='Add Category')
 
 
 def edit_category(category_id):
@@ -20,7 +20,7 @@ def edit_category(category_id):
     if category == None:
         return no_category_found()
 
-    return render_template('views/edit_category.html', page_name='edit_category', page_title='Edit Category', category=category)
+    return render_template('views/category_form.html', page_name='edit_category', page_title='Edit Category', category=category)
 
 
 def delete_category(category_id):
