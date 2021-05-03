@@ -10,7 +10,6 @@
             <table class="table table-hover table-bordered table-responsive">
                 <thead class="table-light">
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Category</th>
                         <th scope="col">Amount</th>
@@ -21,9 +20,8 @@
                 <tbody>
                     {% for expense in expenses %}
                     <tr>
-                        <th>{{ expense.id }}</th>
                         <th>{{ expense.name }}</th>
-                        <th>{{ expense.category }}</th>
+                        <th>{{ expense.category().name }}</th>
                         <th>${{ expense.amount }}</th>
                         <th>{{ expense.date }}</th>
                         <th class="text-center">
