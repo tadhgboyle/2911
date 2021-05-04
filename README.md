@@ -1,7 +1,7 @@
 # Working on Expenses
 
 ## Running the Flask server
-- cd into directory and run `source venv/bin/activate`
+- cd into directory and run `source venv/bin/activate` (on windows: `source venv/scripts/activate`)
 - (if first time working) run `pip3 install Flask && pip install flask_mongoengine`
 - type `export FLASK_APP=main.py`
 - type `export FLASK_ENV=development` (this will reload the flask server when you save code changes)

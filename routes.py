@@ -3,8 +3,10 @@ This module handles forwarding all requests to the application towards their res
 """
 
 from main import app
+from flask import render_template, request
 import expense_controller
 import category_controller
+from models import Category, CategoryForm
 
 
 @app.route('/')
@@ -32,13 +34,28 @@ def list_categories():
     return category_controller.list_categories()
 
 
-@app.route('/add-category')
+@app.route('/add-category', methods=['GET', 'POST'])
 def add_category():
+
+    form = CategoryForm(request.form)
+    if request.method == 'POST' and form.validate():
+        category = Category(name=form.name.data)
+        category.save()
+        return category_controller.list_categories(success='Created new category "{}"'.format(form.name.data))
+
     return category_controller.add_category()
 
 
-@app.route('/edit-category/<category_id>')
+@app.route('/edit-category/<category_id>', methods=['GET', 'POST'])
 def edit_category(category_id):
+
+    form = CategoryForm(request.form)
+    if request.method == 'POST' and form.validate():
+        category = Category.objects.get(id=form.category_id.data)
+        category.name = form.name.data
+        category.save()
+        return category_controller.list_categories(success='Updated category "{}"'.format(form.name.data))
+
     return category_controller.edit_category(category_id)
 
 
