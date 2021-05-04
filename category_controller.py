@@ -16,12 +16,7 @@ def add_category():
 
 
 def edit_category(category_id):
-    category = None
-
-    try:
-        category = Category.objects.get(id=category_id)
-    except:
-        return no_category_found()
+    category = __get_category(category_id)
 
     if category == None:
         return no_category_found()
@@ -30,16 +25,11 @@ def edit_category(category_id):
 
 
 def delete_category(category_id):
-    category = None
-
-    try:
-        category = Category.objects.get(id=category_id)
-    except:
-        return no_category_found('Cannot delete, no category found with that ID.')
+    category = __get_category(category_id)
 
     if category == None:
         return no_category_found('Cannot delete, no category found with that ID.')
-    
+
     category.delete()
 
     return list_categories(success='Deleted category')
@@ -47,3 +37,14 @@ def delete_category(category_id):
 
 def no_category_found(error_message='No category found with that ID'):
     return list_categories(error_message)
+
+
+def __get_category(category_id):
+    category = None
+
+    try:
+        category = Category.objects.get(id=category_id)
+    except:
+        return None
+
+    return category
