@@ -6,6 +6,7 @@
     <h1>{{ 'Edit' if expense is defined else 'Add' }} Expense</h1>
     <div class="row">
         <div class="col"></div>
+        <div class="col-10">
 
             <form action="{{ url_for('edit_expense', expense_id=expense.id) if expense is defined else url_for('add_expense') }}" method="POST">
 
@@ -18,7 +19,7 @@
 
                 <div class="mb-3">
                     <label for="categories" class="form-label">Category</label>
-                    <select class="form-select" id="categories" name="category" required>
+                    <select class="form-select" id="categories" name="category_id" required>
                         {% for category in categories %}
                             <option value="{{ category.id }}" {{ 'selected' if expense is defined and expense.category().id == category.id }}>{{ category.name }}</option>
                         {% endfor %}
@@ -28,7 +29,7 @@
                 <label for="amount" class="form-label">Amount</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text">$</span>
-                    <input type="number" class="form-control" id="amount" name="amount" step="0.00" required min="0.00" value="{{ expense.amount if expense is defined else '0.00' }}">
+                    <input type="number" class="form-control" id="amount" name="amount" step="0.01" required min="0.00" value="{{ expense.amount if expense is defined else '0.00' }}">
                 </div>
 
                 <div class="mb-3">
@@ -39,6 +40,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
 
             </form>
+        </div>
         <div class="col"></div>
     </div>
 </div>

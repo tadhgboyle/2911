@@ -2,12 +2,15 @@
 This module handles forwarding all requests to the application towards their respective controller.
 """
 
+# TODO: Move form logic to controllers
+# TODO: form Validation errors display to user 
+
 from main import app
 from flask import render_template, request
 import expense_controller
 import category_controller
-from models import Category
-from forms import CategoryForm
+from models import Expense, Category
+from forms import ExpenseForm, CategoryForm
 
 
 @app.route('/')
@@ -15,8 +18,15 @@ def list_expenses():
     return expense_controller.list_expenses()
 
 
-@app.route('/add-expense')
+@app.route('/add-expense', methods=['GET', 'POST'])
 def add_expense():
+
+    form = ExpenseForm(request.form)
+    if request.method == 'POST' and form.validate(): 
+        expense = Expense(name=form.name.data, category_id=form.category_id.data, amount=form.amount.data, date=form.date.data)
+        expense.save()
+        return expense_controller.list_expenses(success='Created new expense "{}"'.format(form.name.data))
+
     return expense_controller.add_expense()
 
 
@@ -39,7 +49,7 @@ def list_categories():
 def add_category():
 
     form = CategoryForm(request.form)
-    if request.method == 'POST' and form.validate(): # TODO: Validation errors display to user (name too short/long + name must be unique)
+    if request.method == 'POST' and form.validate():
         category = Category(name=form.name.data)
         category.save()
         return category_controller.list_categories(success='Created new category "{}"'.format(form.name.data))
@@ -51,7 +61,6 @@ def add_category():
 def edit_category(category_id):
 
     form = CategoryForm(request.form)
-    # TODO: Validation errors display to user (name too short/long + name must be unique)
     if request.method == 'POST' and form.validate():
         category = Category.objects.get(id=form.category_id.data)
         category.name = form.name.data

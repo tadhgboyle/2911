@@ -12,7 +12,7 @@ class Expense(db.Document):
     name = db.StringField(required=True, max_length=64)
     category_id = db.ObjectIdField(required=True)
     amount = db.FloatField(required=True)
-    date = db.DateTimeField(required=True)
+    date = db.DateField(required=True)
 
     meta = {
         'collection': 'expenses',
