@@ -6,6 +6,7 @@
 - type `export FLASK_APP=main.py`
 - type `export FLASK_ENV=development` (this will reload the flask server when you save code changes)
 - type `flask run`
+- visit `http://localhost:5000` in your web browser
 - try not to break anything!
 
 ## About HTML pages

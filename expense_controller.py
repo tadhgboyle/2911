@@ -24,8 +24,20 @@ def edit_expense(expense_id):
 
 
 def delete_expense(expense_id):
+    expense = None
+
+    try:
+        expense = Expense.objects.get(id=expense_id)
+    except:
+        return no_expense_found('Cannot delete, no expense found with that ID.')
+
+    if expense == None:
+        return no_expense_found('Cannot delete, no expense found with that ID.')
+
+    expense.delete()
+
     return list_expenses(success='Deleted expense')
 
 
-def no_expense_found():
-    return list_expenses('No expense found with that ID')
+def no_expense_found(error_message='No expense found with that ID'):
+    return list_expenses(error_message)
