@@ -1,5 +1,11 @@
+"""
+This module handles forwarding all requests to the application towards their respective controller.
+"""
+
 from main import app
-import expense_controller, category_controller
+import expense_controller
+import category_controller
+
 
 @app.route('/')
 def list_expenses():

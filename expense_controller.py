@@ -1,3 +1,9 @@
+"""
+This is the controller for all Expense objects.
+It contains functions to list, create, edit and delete expenses.
+Code is in this controller so we can reuse the functions without accidentally running into circular imports.
+"""
+
 from models import Expense
 from flask import render_template
 

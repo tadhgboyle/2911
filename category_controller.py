@@ -1,3 +1,9 @@
+"""
+This is the controller for all Category objects.
+It contains functions to list, create, edit and delete categories.
+Code is in this controller so we can reuse the functions without accidentally running into circular imports.
+"""
+
 from models import Category
 from flask import render_template
 
