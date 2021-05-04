@@ -3,7 +3,6 @@ This module defines models (aka blueprints) for any objects we need in the Expen
 """
 
 from flask_mongoengine import MongoEngine
-from wtforms import Form, StringField, validators
 
 db = MongoEngine()
 
@@ -33,7 +32,3 @@ class Category(db.Document):
         'collection': 'categories',
         'ordering': 'name'
     }
-
-class CategoryForm(Form):
-    name = StringField('name', [validators.Length(min=3, max=64)])
-    category_id = StringField('category_id') # used when editing a category to find it from the database, ignored when making new category

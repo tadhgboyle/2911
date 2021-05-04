@@ -6,7 +6,8 @@ from main import app
 from flask import render_template, request
 import expense_controller
 import category_controller
-from models import Category, CategoryForm
+from models import Category
+from forms import CategoryForm
 
 
 @app.route('/')
@@ -38,7 +39,7 @@ def list_categories():
 def add_category():
 
     form = CategoryForm(request.form)
-    if request.method == 'POST' and form.validate():
+    if request.method == 'POST' and form.validate(): # TODO: Validation errors display to user (name too short/long + name must be unique)
         category = Category(name=form.name.data)
         category.save()
         return category_controller.list_categories(success='Created new category "{}"'.format(form.name.data))
@@ -50,6 +51,7 @@ def add_category():
 def edit_category(category_id):
 
     form = CategoryForm(request.form)
+    # TODO: Validation errors display to user (name too short/long + name must be unique)
     if request.method == 'POST' and form.validate():
         category = Category.objects.get(id=form.category_id.data)
         category.name = form.name.data
