@@ -6,29 +6,38 @@
     <h1>{{ 'Edit' if expense is defined else 'Add' }} Expense</h1>
     <div class="row">
         <div class="col"></div>
-            <form>
-                <div class="form-group">
-                    <label for="name">Expense Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name">
+
+            <form action="{{ url_for('edit_expense', expense_id=expense.id) if expense is defined else url_for('add_expense') }}" method="POST">
+
+                <input type="hidden" name="expense_id" id="expense_id" value="{{ expense.id if expense is defined else '' }}">
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Expense Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Expense Name" value="{{ expense.name if expense is defined else '' }}" required min="3" max="64">
                 </div>
-                <div class="form-group">
-                    <label for="Categories">Category</label>
-                    <select class="form-control" id="Categories">
-                        <option value="fake_value">Fake value</option>
-                        <option value="fake_value">Fake value2</option>
-                        <option value="fake_value">Fake value3</option>
-                        <option value="fake_value">Fake value4</option>
-                        <option value="fake_value">Fake value5</option>
+
+                <div class="mb-3">
+                    <label for="categories" class="form-label">Category</label>
+                    <select class="form-select" id="categories" name="category" required>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {{ 'selected' if expense is defined and expense.category().id == category.id }}>{{ category.name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="Amount">Amount</label>
-                    <input type="number" class="form-control" id="Amount" placeholder="Amount">
+
+                <label for="amount" class="form-label">Amount</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <input type="number" class="form-control" id="amount" name="amount" step="0.00" required min="0.00" value="{{ expense.amount if expense is defined else '0.00' }}">
                 </div>
-                <div class="form-group">
-                    <label for="name">Date</label>
-                    <input type="date" class="form-control" id="Date" placeholder="Date">
+
+                <div class="mb-3">
+                    <label for="date" class="form-label">Date</label>
+                    <input type="date" class="form-control" id="date" name="date" value="{{ expense.date if expense is defined }}">
                 </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
             </form>
         <div class="col"></div>
     </div>

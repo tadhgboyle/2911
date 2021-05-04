@@ -4,7 +4,7 @@ It contains functions to list, create, edit and delete expenses.
 Code is in this controller so we can reuse the functions without accidentally running into circular imports.
 """
 
-from models import Expense
+from models import Expense, Category
 from flask import render_template
 
 def list_expenses(error=None, success=None):
@@ -12,7 +12,7 @@ def list_expenses(error=None, success=None):
 
 
 def add_expense():
-    return render_template('views/expense_form.html', page_name='add_expense', page_title='Add Expense')
+    return render_template('views/expense_form.html', page_name='add_expense', page_title='Add Expense', categories=Category.objects())
 
 
 def edit_expense(expense_id):
@@ -21,7 +21,7 @@ def edit_expense(expense_id):
     if expense == None:
         return no_expense_found()
 
-    return render_template('views/expense_form.html', page_name='edit_expense', page_title='Edit Expense', expense=expense)
+    return render_template('views/expense_form.html', page_name='edit_expense', page_title='Edit Expense', expense=expense, categories=Category.objects())
 
 
 def delete_expense(expense_id):
