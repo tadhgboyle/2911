@@ -6,8 +6,30 @@
     <h1>{{ 'Edit' if expense is defined else 'Add' }} Expense</h1>
     <div class="row">
         <div class="col"></div>
-        <div class="col-10">
-        </div>
+            <form>
+                <div class="form-group">
+                    <label for="name">Expense Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label for="Categories">Category</label>
+                    <select class="form-control" id="Categories">
+                        <option value="fake_value">Fake value</option>
+                        <option value="fake_value">Fake value2</option>
+                        <option value="fake_value">Fake value3</option>
+                        <option value="fake_value">Fake value4</option>
+                        <option value="fake_value">Fake value5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Amount">Amount</label>
+                    <input type="number" class="form-control" id="Amount" placeholder="Amount">
+                </div>
+                <div class="form-group">
+                    <label for="name">Date</label>
+                    <input type="date" class="form-control" id="Date" placeholder="Date">
+                </div>
+            </form>
         <div class="col"></div>
     </div>
 </div>
