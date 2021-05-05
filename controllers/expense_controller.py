@@ -53,7 +53,7 @@ def edit_expense(expense_id):
                 for error in errorMessages:
                     errors.append(error) 
 
-                    return render_template('views/expense_form.html', page_name='edit_expense', page_title='Edit Expense', expense=expense, categories=Category.objects(), errors=errors)
+            return render_template('views/expense_form.html', page_name='edit_expense', page_title='Edit Expense', expense=expense, categories=Category.objects(), errors=errors)
 
     expense = __get_expense(expense_id)
 
