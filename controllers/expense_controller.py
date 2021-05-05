@@ -3,7 +3,8 @@ This is the controller for all Expense objects.
 It contains functions to list, create, edit and delete expenses.
 Code is in this controller so we can reuse the functions without accidentally running into circular imports.
 """
-# TODO: form Validation errors display to user
+# TODO: add field name as prefix in validation messages
+# TODO: Clean up error array creation
 
 
 from models import Expense, Category
@@ -18,10 +19,18 @@ def list_expenses(error=None, success=None):
 def add_expense():
 
     form = ExpenseForm(request.form)
-    if request.method == 'POST' and form.validate(): 
-        expense = Expense(name=form.name.data, category_id=form.category_id.data, amount=form.amount.data, date=form.date.data)
-        expense.save()
-        return list_expenses(success='Created new expense "{}".'.format(form.name.data))
+    if request.method == 'POST':
+        if form.validate(): 
+            expense = Expense(name=form.name.data, category_id=form.category_id.data, amount=form.amount.data, date=form.date.data)
+            expense.save()
+            return list_expenses(success='Created new expense "{}".'.format(form.name.data))
+        else:
+            errors = []
+            for field, errorMessages in form.errors.items():
+                for error in errorMessages:
+                    errors.append(error)
+
+            return render_template('views/expense_form.html', page_name='add_expense', page_title='Add Expense', categories=Category.objects(), errors=errors)
 
     return render_template('views/expense_form.html', page_name='add_expense', page_title='Add Expense', categories=Category.objects())
 
@@ -29,14 +38,22 @@ def add_expense():
 def edit_expense(expense_id):
 
     form = ExpenseForm(request.form)
-    if request.method == 'POST' and form.validate():
+    if request.method == 'POST':
         expense = Expense.objects.get(id=form.expense_id.data)
-        expense.name = form.name.data
-        expense.category_id = form.category_id.data
-        expense.amount = form.amount.data
-        expense.date = form.date.data
-        expense.save()
-        return list_expenses(success='Updated expense "{}".'.format(form.name.data))
+        if form.validate():
+            expense.name = form.name.data
+            expense.category_id = form.category_id.data
+            expense.amount = form.amount.data
+            expense.date = form.date.data
+            expense.save()
+            return list_expenses(success='Updated expense "{}".'.format(form.name.data))
+        else:
+            errors = []
+            for field, errorMessages in form.errors.items():
+                for error in errorMessages:
+                    errors.append(error) 
+
+                    return render_template('views/expense_form.html', page_name='edit_expense', page_title='Edit Expense', expense=expense, categories=Category.objects(), errors=errors)
 
     expense = __get_expense(expense_id)
 

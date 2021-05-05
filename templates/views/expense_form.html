@@ -8,6 +8,14 @@
         <div class="col"></div>
         <div class="col-10">
 
+            {% if errors is defined %}
+                {% for error in errors %}
+                    <div class="alert alert-danger fade show" role="alert">
+                        <strong>Error:</strong> {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
             <form action="{{ url_for('edit_expense', expense_id=expense.id) if expense is defined else url_for('add_expense') }}" method="POST">
 
                 <input type="hidden" name="expense_id" id="expense_id" value="{{ expense.id if expense is defined else '' }}">
