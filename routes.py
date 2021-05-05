@@ -5,8 +5,8 @@ This module handles forwarding all requests to the application towards their res
 
 from main import app
 from flask import render_template
-import expense_controller
-import category_controller
+from controllers import expense_controller
+from controllers import category_controller
 
 
 @app.route('/')
