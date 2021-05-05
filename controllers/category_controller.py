@@ -3,12 +3,12 @@ This is the controller for all Category objects.
 It contains functions to list, create, edit and delete categories.
 Code is in this controller so we can reuse the functions without accidentally running into circular imports.
 """
-# TODO: form Validation errors display to user
 
 
 from models import Category
 from flask import render_template, request
 from forms import CategoryForm
+from utils import parse_form_errors
 
 
 def list_categories(error=None, success=None):
@@ -18,10 +18,13 @@ def list_categories(error=None, success=None):
 def add_category():
 
     form = CategoryForm(request.form)
-    if request.method == 'POST' and form.validate():
-        category = Category(name=form.name.data)
-        category.save()
-        return list_categories(success='Created new category "{}".'.format(form.name.data))
+    if request.method == 'POST':
+        if form.validate():
+            category = Category(name=form.name.data)
+            category.save()
+            return list_categories(success='Created new category "{}".'.format(form.name.data))
+        else:
+            return render_template('views/category_form.html', page_name='add_category', page_title='Add Category', errors=parse_form_errors(form.errors.items()))
 
     return render_template('views/category_form.html', page_name='add_category', page_title='Add Category')
 
@@ -29,11 +32,14 @@ def add_category():
 def edit_category(category_id):
 
     form = CategoryForm(request.form)
-    if request.method == 'POST' and form.validate():
+    if request.method == 'POST':
         category = Category.objects.get(id=form.category_id.data)
-        category.name = form.name.data
-        category.save()
-        return list_categories(success='Updated category "{}".'.format(form.name.data))
+        if form.validate():
+            category.name = form.name.data
+            category.save()
+            return list_categories(success='Updated category "{}".'.format(form.name.data))
+        else:
+            return render_template('views/category_form.html', page_name='edit_category', page_title='Edit Category', category=category, errors=parse_form_errors(form.errors.items()))
 
     category = __get_category(category_id)
 

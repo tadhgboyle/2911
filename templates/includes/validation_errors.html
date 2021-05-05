@@ -1,0 +1,7 @@
+{% if errors is defined %}
+    {% for field, error in errors %}
+        <div class="alert alert-danger fade show" role="alert">
+            <strong>Error:</strong> {{ field|capitalize }}: {{ error }}
+        </div>
+    {% endfor %}
+{% endif %}

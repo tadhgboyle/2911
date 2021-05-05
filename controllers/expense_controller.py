@@ -3,13 +3,12 @@ This is the controller for all Expense objects.
 It contains functions to list, create, edit and delete expenses.
 Code is in this controller so we can reuse the functions without accidentally running into circular imports.
 """
-# TODO: add field name as prefix in validation messages
-# TODO: Clean up error array creation
 
 
 from models import Expense, Category
 from flask import render_template, request
 from forms import ExpenseForm
+from utils import parse_form_errors
 
 
 def list_expenses(error=None, success=None):
@@ -25,12 +24,7 @@ def add_expense():
             expense.save()
             return list_expenses(success='Created new expense "{}".'.format(form.name.data))
         else:
-            errors = []
-            for field, errorMessages in form.errors.items():
-                for error in errorMessages:
-                    errors.append(error)
-
-            return render_template('views/expense_form.html', page_name='add_expense', page_title='Add Expense', categories=Category.objects(), errors=errors)
+            return render_template('views/expense_form.html', page_name='add_expense', page_title='Add Expense', categories=Category.objects(), errors=parse_form_errors(form.errors.items()))
 
     return render_template('views/expense_form.html', page_name='add_expense', page_title='Add Expense', categories=Category.objects())
 
@@ -48,12 +42,7 @@ def edit_expense(expense_id):
             expense.save()
             return list_expenses(success='Updated expense "{}".'.format(form.name.data))
         else:
-            errors = []
-            for field, errorMessages in form.errors.items():
-                for error in errorMessages:
-                    errors.append(error) 
-
-            return render_template('views/expense_form.html', page_name='edit_expense', page_title='Edit Expense', expense=expense, categories=Category.objects(), errors=errors)
+            return render_template('views/expense_form.html', page_name='edit_expense', page_title='Edit Expense', expense=expense, categories=Category.objects(), errors=parse_form_errors(form.errors.items()))
 
     expense = __get_expense(expense_id)
 
