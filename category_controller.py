@@ -32,7 +32,7 @@ def delete_category(category_id):
 
     category.delete()
 
-    return list_categories(success='Deleted category "{}"'.format(category.name))
+    return list_categories(success='Deleted category "{}".'.format(category.name))
 
 
 def no_category_found(error_message='No category found with that ID'):

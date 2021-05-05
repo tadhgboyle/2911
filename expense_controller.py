@@ -33,7 +33,7 @@ def delete_expense(expense_id):
 
     expense.delete()
 
-    return list_expenses(success='Deleted expense')
+    return list_expenses(success='Deleted expense "{}".'.format(expense.name))
 
 
 def no_expense_found(error_message='No expense found with that ID'):

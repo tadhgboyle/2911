@@ -25,13 +25,24 @@ def add_expense():
     if request.method == 'POST' and form.validate(): 
         expense = Expense(name=form.name.data, category_id=form.category_id.data, amount=form.amount.data, date=form.date.data)
         expense.save()
-        return expense_controller.list_expenses(success='Created new expense "{}"'.format(form.name.data))
+        return expense_controller.list_expenses(success='Created new expense "{}".'.format(form.name.data))
 
     return expense_controller.add_expense()
 
 
-@app.route('/edit-expense/<expense_id>')
+@app.route('/edit-expense/<expense_id>', methods=['GET', 'POST'])
 def edit_expense(expense_id):
+
+    form = ExpenseForm(request.form)
+    if request.method == 'POST' and form.validate():
+        expense = Expense.objects.get(id=form.expense_id.data)
+        expense.name = form.name.data
+        expense.category_id = form.category_id.data
+        expense.amount = form.amount.data
+        expense.date = form.date.data
+        expense.save()
+        return expense_controller.list_expenses(success='Updated expense "{}".'.format(form.name.data))
+
     return expense_controller.edit_expense(expense_id)
 
 
@@ -52,7 +63,7 @@ def add_category():
     if request.method == 'POST' and form.validate():
         category = Category(name=form.name.data)
         category.save()
-        return category_controller.list_categories(success='Created new category "{}"'.format(form.name.data))
+        return category_controller.list_categories(success='Created new category "{}".'.format(form.name.data))
 
     return category_controller.add_category()
 
@@ -65,7 +76,7 @@ def edit_category(category_id):
         category = Category.objects.get(id=form.category_id.data)
         category.name = form.name.data
         category.save()
-        return category_controller.list_categories(success='Updated category "{}"'.format(form.name.data))
+        return category_controller.list_categories(success='Updated category "{}".'.format(form.name.data))
 
     return category_controller.edit_category(category_id)
 
