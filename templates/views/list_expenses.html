@@ -19,16 +19,18 @@
                 </thead>
                 <tbody>
                     {% for expense in expenses %}
-                    <tr>
-                        <th>{{ expense.name }}</th>
-                        <th>{{ expense.category().name }}</th>
-                        <th>{{ "$%.2f"|format(expense.amount) }}</th>
-                        <th>{{ expense.date }}</th>
-                        <th class="text-center">
-                            <a class="btn btn-warning" role="button" href="{{ url_for('edit_expense', expense_id=expense.id) }}" style="margin-right:6px">Edit <i class="fa fa-wrench"></i></button>
-                            <a class="btn btn-danger" role="button" href="{{ url_for('delete_expense', expense_id=expense.id) }}">Delete <i class="fa fa-trash"></i></button>
-                        </th>
-                    </tr>
+                        <tr>
+                            <th>{{ expense.name }}</th>
+                            <th>{{ expense.category().name }}</th>
+                            <th>{{ "$%.2f"|format(expense.amount) }}</th>
+                            <th>{{ expense.date }}</th>
+                            <th class="text-center">
+                                <a class="btn btn-warning" role="button" href="{{ url_for('edit_expense', expense_id=expense.id) }}" style="margin-right:6px">Edit <i class="fa fa-wrench"></i></a>
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete_modal_{{ expense.id }}">
+                                    Delete <i class="fa fa-trash"></i>
+                                </button>
+                            </th>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -36,6 +38,25 @@
         <div class="col"></div>
     </div>
 </div>
+
+{% for expense in expenses %}
+    <div class="modal fade" id="delete_modal_{{ expense.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmation</h5>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the "{{ expense.name }}" expense?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger" role="button" href="{{ url_for('delete_expense', expense_id=expense.id) }}">Delete <i class="fa fa-trash"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
 
 <script>
     $(document).ready(function () {
