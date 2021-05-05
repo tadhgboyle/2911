@@ -2,8 +2,6 @@
 This module defines blueprints and validation rules for any HTML forms needed in our Expense application
 """
 
-# TODO: force unique names for categories and expenses
-
 
 from wtforms import Form, StringField, SelectField, FloatField, DateField, validators
 from models import Category
