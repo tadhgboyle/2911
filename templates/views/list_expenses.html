@@ -22,7 +22,7 @@
                     <tr>
                         <th>{{ expense.name }}</th>
                         <th>{{ expense.category().name }}</th>
-                        <th>${{ expense.amount }}</th>
+                        <th>{{ "$%.2f"|format(expense.amount) }}</th>
                         <th>{{ expense.date }}</th>
                         <th class="text-center">
                             <a class="btn btn-warning" role="button" href="{{ url_for('edit_expense', expense_id=expense.id) }}" style="margin-right:6px">Edit <i class="fa fa-wrench"></i></button>
