@@ -3,19 +3,38 @@ This is the controller for all Category objects.
 It contains functions to list, create, edit and delete categories.
 Code is in this controller so we can reuse the functions without accidentally running into circular imports.
 """
+# TODO: form Validation errors display to user
+
 
 from models import Category
-from flask import render_template
+from flask import render_template, request
+from forms import CategoryForm
+
 
 def list_categories(error=None, success=None):
     return render_template('views/list_categories.html', page_name='list_categories', page_title='List Categories', categories=Category.objects(), error=error, success=success)
 
 
 def add_category():
+
+    form = CategoryForm(request.form)
+    if request.method == 'POST' and form.validate():
+        category = Category(name=form.name.data)
+        category.save()
+        return list_categories(success='Created new category "{}".'.format(form.name.data))
+
     return render_template('views/category_form.html', page_name='add_category', page_title='Add Category')
 
 
 def edit_category(category_id):
+
+    form = CategoryForm(request.form)
+    if request.method == 'POST' and form.validate():
+        category = Category.objects.get(id=form.category_id.data)
+        category.name = form.name.data
+        category.save()
+        return list_categories(success='Updated category "{}".'.format(form.name.data))
+
     category = __get_category(category_id)
 
     if category == None:
@@ -25,6 +44,7 @@ def edit_category(category_id):
 
 
 def delete_category(category_id):
+
     category = __get_category(category_id)
 
     if category == None:
@@ -40,6 +60,7 @@ def no_category_found(error_message='No category found with that ID'):
 
 
 def __get_category(category_id):
+
     category = None
 
     try:
