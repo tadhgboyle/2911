@@ -31,7 +31,7 @@
                 <label for="amount" class="form-label">Amount</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text">$</span>
-                    <input type="number" class="form-control" id="amount" name="amount" step="0.01" required min="0.00" value="{{ expense.amount if expense is defined else '0.00' }}">
+                    <input type="number" class="form-control" id="amount" name="amount" step="0.01" required min="0.01" value="{{ "%.2f"|format(expense.amount) if expense is defined else '0.00' }}">
                 </div>
 
                 <div class="mb-3">
