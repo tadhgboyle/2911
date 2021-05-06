@@ -9,6 +9,7 @@
 - type `flask run`
 - visit `http://localhost:5000` in your web browser
 - try not to break anything!
+- make sure mongodb compass is installed: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
 
 ## About HTML pages
 - to reduce reused code, all our html pages will "extend" the base html page `templates/layout.html`
