@@ -17,6 +17,9 @@ def list_expenses(error=None, success=None):
 
 def add_expense():
 
+    if len(Category.objects()) < 1:
+        return list_expenses(error='You cannot create an expense until you create at least one category.')
+
     form = ExpenseForm(request.form)
     if request.method == 'POST':
         if form.validate(): 
