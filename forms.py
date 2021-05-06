@@ -8,7 +8,7 @@ from models import Expense, Category
 
 
 class ExpenseForm(Form):
-    name = StringField('name', [validators.Length(min=3, max=64), validators.NoneOf([expense.name for expense in Expense.objects()], 'An Expense with that name already exists.')])
+    name = StringField('name', [validators.Length(min=3, max=64)])
     category_id = SelectField('category_id', [validators.Length(min=24, max=24)], validate_choice=False)
     amount = FloatField('amount', [validators.NumberRange(min=0.01)])
     date = DateField('date')
@@ -17,6 +17,6 @@ class ExpenseForm(Form):
 
 
 class CategoryForm(Form):
-    name = StringField('name', [validators.Length(min=3, max=64), validators.NoneOf([category.name for category in Category.objects()], 'A Category with that name already exists.')])
+    name = StringField('name', [validators.Length(min=3, max=64)])
     # used when editing a category to find it from the database, ignored when making new category
     category_id = StringField('category_id')

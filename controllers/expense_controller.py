@@ -23,8 +23,12 @@ def add_expense():
     form = ExpenseForm(request.form)
     if request.method == 'POST':
         if form.validate(): 
+            if __get_expense_by_name(form.name.data) != None:
+                return render_template('views/expense_form.html', page_name='edit_expense', page_title='Edit Expense', categories=Category.objects(), error='An expense with that name already exists.')
+
             expense = Expense(name=form.name.data, category_id=form.category_id.data, amount=form.amount.data, date=form.date.data)
             expense.save()
+
             return list_expenses(success='Created new expense "{}".'.format(form.name.data))
         else:
             return render_template('views/expense_form.html', page_name='add_expense', page_title='Add Expense', categories=Category.objects(), errors=parse_form_errors(form.errors.items()))
@@ -38,11 +42,15 @@ def edit_expense(expense_id):
     if request.method == 'POST':
         expense = Expense.objects.get(id=form.expense_id.data)
         if form.validate():
+            if __get_expense_by_name(form.name.data, expense.id) != None:
+                return render_template('views/expense_form.html', page_name='edit_expense', page_title='Edit Expense', expense=expense, categories=Category.objects(), error='An expense with that name already exists.')
+
             expense.name = form.name.data
             expense.category_id = form.category_id.data
             expense.amount = form.amount.data
             expense.date = form.date.data
             expense.save()
+
             return list_expenses(success='Updated expense "{}".'.format(form.name.data))
         else:
             return render_template('views/expense_form.html', page_name='edit_expense', page_title='Edit Expense', expense=expense, categories=Category.objects(), errors=parse_form_errors(form.errors.items()))
@@ -78,6 +86,21 @@ def __get_expense(expense_id):
     try:
         expense = Expense.objects.get(id=expense_id)
     except:
+        return None
+
+    return expense
+
+
+def __get_expense_by_name(expense_name, ignore_id=None):
+
+    expense = None
+
+    try:
+        expense = Expense.objects.get(name=expense_name)
+    except:
+        return None
+
+    if ignore_id != None and expense.id == ignore_id:
         return None
 
     return expense
