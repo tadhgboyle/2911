@@ -14,11 +14,11 @@
         let line = new Chart(graph, {
             type: "line",
             data: {
-                dates: {{ dates | safe }},
+                labels: {{ labels | safe }},
                 datasets: [
                     {
                     label: "Expenses Graph",
-                    data: {{ price | safe}},
+                    data: {{ values | safe}},
                     fill: false,
                     borderColor: "rgb(75, 192, 192)",
                     lineTension: 0.1
