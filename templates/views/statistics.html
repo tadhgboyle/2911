@@ -3,13 +3,21 @@
 {% block content %}
 
 <div class="container">
-    <h1 class="m-4">Statistics</h1>
+    <h1 class="m-4">
+        Statistics
+        <p class="lead">Total Expendatures: {{ "$%.2f"|format(total_spent) }}</p>
+    </h1>
+
     <div class="row">
-        <div class="col"></div>
-        <div class="col-10">
-            <canvas id="category_spending" width="900" height="400"></canvas>
+        <div class="col-3">
+            <canvas id="category_spending" height="400px" max-height="400px"></canvas>
         </div>
-        <div class="col"></div>
+
+        <div class="col-1"></div>
+
+        <div class="col-3">
+            <canvas id="top_expenses" height="300px" max-height="300px"></canvas>
+        </div>
     </div>
 </div>
 
@@ -20,20 +28,50 @@
 </style>
 
 <script>
-    let graph = document.getElementById("category_spending").getContext("2d")
-    let line = new Chart(graph, {
-        type: "bar",
+    const category_spending_elem = document.getElementById("category_spending").getContext("2d")
+    const category_spending_chart = new Chart(category_spending_elem, {
+        type: "doughnut",
         data: {
             labels: {{ category_spending['labels']|safe }},
             datasets: [
                 {
                     label: "Category Spending",
                     data: {{ category_spending['values']|safe }},
-                    fill: false,
                     borderColor: "rgb(75, 192, 192)",
                 }
             ]
         },
+        options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Spent per Category'
+                    }
+                }
+            }
+    });
+
+    const top_expenses_elem = document.getElementById("top_expenses").getContext("2d")
+    const top_expenses_chart = new Chart(top_expenses_elem, {
+        type: "bar",
+        data: {
+            labels: {{ top_expenses['labels']|safe }},
+            datasets: [
+                {
+                    label: "Expense Amount",
+                    data: {{ top_expenses['values']|safe }},
+                    borderColor: "rgb(75, 192, 192)",
+                }
+            ]
+        },
+        options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Top 10 Expenses'
+                    }
+                }
+            }
     });
 </script>
 {% endblock %}
