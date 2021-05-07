@@ -1,5 +1,5 @@
 """
-This module creates and initializes the flask application instance. It also handles forwarding all requests to the application towards their respective controller.
+This module contains the method to create the flask application and configures all forwarding requests.
 """
 
 from flask import Flask, render_template
