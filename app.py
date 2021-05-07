@@ -23,7 +23,6 @@ def create_app():
     def edit_expense(expense_id):
         return expense_controller.edit_expense(expense_id)
 
-
     @app.route('/delete-expense/<expense_id>')
     def delete_expense(expense_id):
         return expense_controller.delete_expense(expense_id)
