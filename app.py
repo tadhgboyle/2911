@@ -4,7 +4,7 @@ This module contains the method to create the flask application and configures a
 
 from flask import Flask, render_template
 from models import db
-from controllers import expense_controller, category_controller
+from controllers import expense_controller, category_controller, statistics_controller
 
 def create_app():
     app = Flask(__name__)
@@ -45,6 +45,6 @@ def create_app():
 
     @app.route('/statistics')
     def statistics():
-        return render_template('views/statistics.html', page_name='statistics', page_title='Statistics')
+        return statistics_controller.show_statistics()
 
     return app

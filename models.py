@@ -1,5 +1,5 @@
 """
-This module defines models (aka blueprints) for any objects we need in the Expense application.
+This module defines models (aka blueprints) for any database objects we need in the Expense application.
 """
 
 from flask_mongoengine import MongoEngine
