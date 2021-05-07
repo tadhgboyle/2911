@@ -4,8 +4,7 @@ This module creates and initializes the flask application instance. It also hand
 
 from flask import Flask, render_template
 from models import db
-from controllers import expense_controller
-from controllers import category_controller
+from controllers import expense_controller, category_controller
 
 def create_app():
     app = Flask(__name__)
