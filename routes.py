@@ -7,6 +7,7 @@ from main import app
 from flask import render_template
 from controllers import expense_controller
 from controllers import category_controller
+from controllers import statistics_controller
 
 
 @app.route('/')
@@ -51,14 +52,4 @@ def delete_category(category_id):
 
 @app.route('/statistics')
 def statistics():
-
-    data = [
-        ("Shopping", 1597),
-        ("Rent", 1459),
-        ("Personal Items", 1555),
-    ]
-
-    dates = [row[0] for row in data]
-    price = [row[1] for row in data]
-
-    return render_template('views/statistics.html', page_name='statistics', page_title='Statistics', labels=dates, values=price)
+    return statistics_controller.show_statistics()

@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col"></div>
         <div class="col-10">
-            <canvas id="chart" width="900" height="400"></canvas>
+            <canvas id="category_spending" width="900" height="400"></canvas>
         </div>
         <div class="col"></div>
     </div>
@@ -20,18 +20,17 @@
 </style>
 
 <script>
-    let graph = document.getElementById("chart").getContext("2d")
+    let graph = document.getElementById("category_spending").getContext("2d")
     let line = new Chart(graph, {
         type: "bar",
         data: {
-            labels: {{ labels|safe }},
+            labels: {{ category_spending['labels']|safe }},
             datasets: [
                 {
-                    label: "Expenses Graph",
-                    data: {{ values|safe }},
+                    label: "Category Spending",
+                    data: {{ category_spending['values']|safe }},
                     fill: false,
                     borderColor: "rgb(75, 192, 192)",
-                    lineTension: 0.1
                 }
             ]
         },

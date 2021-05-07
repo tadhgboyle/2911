@@ -43,6 +43,7 @@ def edit_category(category_id):
                 return render_template('views/category_form.html', page_name='edit_category', page_title='Edit Category', category=category, error='A category with that name already exists.')
 
             category.name = form.name.data
+            category.save()
 
             return list_categories(success='Updated category "{}".'.format(form.name.data))
         else:
