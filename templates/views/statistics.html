@@ -22,16 +22,16 @@
 <script>
     let graph = document.getElementById("chart").getContext("2d")
     let line = new Chart(graph, {
-        type: "line",
+        type: "bar",
         data: {
             labels: {{ labels|safe }},
             datasets: [
                 {
-                label: "Expenses Graph",
-                data: {{ values|safe }},
-                fill: false,
-                borderColor: "rgb(75, 192, 192)",
-                lineTension: 0.1
+                    label: "Expenses Graph",
+                    data: {{ values|safe }},
+                    fill: false,
+                    borderColor: "rgb(75, 192, 192)",
+                    lineTension: 0.1
                 }
             ]
         },

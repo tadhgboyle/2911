@@ -51,4 +51,14 @@ def delete_category(category_id):
 
 @app.route('/statistics')
 def statistics():
-    return render_template('views/statistics.html', page_name='statistics', page_title='Statistics')
+
+    data = [
+        ("Shopping", 1597),
+        ("Rent", 1459),
+        ("Personal Items", 1555),
+    ]
+
+    dates = [row[0] for row in data]
+    price = [row[1] for row in data]
+
+    return render_template('views/statistics.html', page_name='statistics', page_title='Statistics', labels=dates, values=price)
