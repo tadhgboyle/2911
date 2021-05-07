@@ -4,9 +4,7 @@
 - cd into directory, do `python3 -m venv venv` (on windows: `py -3 -m venv venv`)
 - and then run `source venv/bin/activate` (on windows: `source venv/Scripts/activate` (The capital 'S' in Scripts matters!)
 - (if first time working) run `pip3 install Flask && pip install flask_mongoengine`
-- type `export FLASK_APP=main.py`
-- type `export FLASK_ENV=development` (this will reload the flask server when you save code changes)
-- type `flask run`
+- type `python main.py` in the console
 - visit `http://localhost:5000` in your web browser
 - try not to break anything!
 - make sure mongodb compass is installed: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
