@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script> 
+    <title>Statistics</title>
+</head>
+
+<body>
+    <canvas id="chart" width="900" height="400"></canvas>
+
+
+<script>
+    let graph = document.getElementById("chart").getContext("2d")
+    let line = new Chart(graph, {
+        type: "line",
+        data: {
+            labels: {{ labels | safe }},
+            datasets: [
+                {
+                label: "Expenses Graph",
+                data: {{ values | safe}},
+                fill: false,
+                borderColor: "rgb(75, 192, 192)",
+                lineTension: 0.1
+                }
+            ]
+        },
+    });
+</script>
+</body>
+{% include 'includes/footer.html' %}
+</html>
+
+<style>
+    html{
+        overflow: hidden;
+    }
+</style>
