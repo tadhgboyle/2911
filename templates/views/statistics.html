@@ -10,13 +10,13 @@
 
     <div class="row">
         <div class="col-3">
-            <canvas id="category_spending" height="400px" max-height="400px"></canvas>
+            <canvas id="category_spending" height="600px" max-height="600px"></canvas>
         </div>
 
         <div class="col-1"></div>
 
         <div class="col-3">
-            <canvas id="top_expenses" height="300px" max-height="300px"></canvas>
+            <canvas id="top_expenses" height="450px" max-height="450px"></canvas>
         </div>
     </div>
 </div>
@@ -25,6 +25,7 @@
     html {
         overflow: hidden;
     }
+    
 </style>
 
 <script>
@@ -32,12 +33,21 @@
     const category_spending_chart = new Chart(category_spending_elem, {
         type: "doughnut",
         data: {
-            labels: {{ category_spending['labels']|safe }},
+            labels: {{ category_spending['labels']|safe}},
             datasets: [
                 {
                     label: "Category Spending",
                     data: {{ category_spending['values']|safe }},
-                    borderColor: "rgb(75, 192, 192)",
+                    borderColor: "rgb(25,25,112)",
+                    backgroundColor: [
+                        'rgba(30,144,255)',
+                        'rgba(255,0,0)',
+                        'rgba(127,255,212)',
+                        'rgba(255,105,180)',
+                        'rgba(123,104,238)',
+                        'rgba(147,112,219)',
+                        'rgba(244,164,96)'
+                    ],
                 }
             ]
         },
@@ -60,7 +70,25 @@
                 {
                     label: "Expense Amount",
                     data: {{ top_expenses['values']|safe }},
-                    borderColor: "rgb(75, 192, 192)",
+                    borderColor: [
+                        'rgb(0,0,205)',
+                        'rgb(139,0,0)',
+                        'rgb(72,209,204)',
+                        'rgb(199,21,133)',
+                        'rgb(75,0,130)',
+                        'rgb(165,42,42)',
+                        'rgb(184,134,11)'
+                    ],
+                    backgroundColor: [
+                        'rgba(30,144,255)',
+                        'rgba(255,0,0)',
+                        'rgba(127,255,212)',
+                        'rgba(255,105,180)',
+                        'rgba(123,104,238)',
+                        'rgba(240,128,128)',
+                        'rgba(244,164,96)'
+                    ],
+                    borderWidth: 1 
                 }
             ]
         },
@@ -68,7 +96,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Top 10 Expenses'
+                        text:'Top 10 Expenses'
                     }
                 }
             }
