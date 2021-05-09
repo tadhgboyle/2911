@@ -49,3 +49,7 @@ def test_edit_category(client):
 def test_delete_category(client):
     response = client.get('/delete-category/<category_id>')
     assert response.status_code == 200
+
+def test_statistics(client):
+    response = client.get('/statistics')
+    assert response.status_code == 200
