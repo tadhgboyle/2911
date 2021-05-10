@@ -10,6 +10,7 @@ from models import Expense, Category
 def show_statistics():
 
     total_spent = get_total_spent()
+    average_expense_amount = get_average_expense_amount()
 
     category_spending_data = get_category_spending_data()
     category_spending = {
@@ -23,12 +24,17 @@ def show_statistics():
         'values': [row['amount'] for row in top_expenses_data]
     }
 
-    return render_template('views/statistics.html', page_name='statistics', page_title='Statistics', total_spent=total_spent, category_spending=category_spending, top_expenses=top_expenses)
+    return render_template('views/statistics.html', page_name='statistics', page_title='Statistics', total_spent=total_spent, average_expense_amount=average_expense_amount, category_spending=category_spending, top_expenses=top_expenses)
 
 
 def get_total_spent():
     """ Get total dollars spent """
     return Expense.objects().sum('amount')
+
+
+def get_average_expense_amount():
+    """ Get average expense amount """
+    return Expense.objects().average('amount')
 
 
 def get_category_spending_data():

@@ -5,17 +5,21 @@
 <div class="container">
     <h1 class="m-4">
         Statistics
-        <p class="lead">Total Expendatures: {{ "$%.2f"|format(total_spent) }}</p>
+        <p class="lead">
+            Total Expendatures: {{ "$%.2f"|format(total_spent) }}
+            <br>
+            Average Expense Amount: {{ "$%.2f"|format(average_expense_amount) }}
+        </p>
     </h1>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-5">
             <canvas id="category_spending" height="600px" max-height="600px"></canvas>
         </div>
 
-        <div class="col-1"></div>
+        <div class="col-2"></div>
 
-        <div class="col-3">
+        <div class="col-5">
             <canvas id="top_expenses" height="450px" max-height="450px"></canvas>
         </div>
     </div>
