@@ -5,7 +5,8 @@ It then goes through a sequence of tests where both a sample category and sample
 
 import pytest
 from app import create_app
-from models import Category, Expense
+from controllers import statistics_controller
+from models import Category, Expense, db
 import datetime
 
 @pytest.fixture
@@ -222,7 +223,6 @@ def test_delete_expense(client):
     # Tests if expense was deleted succesfully or not     
     assert expenses_length_before_delete != len(Expense.objects())
     assert b'<strong>Success:</strong> Deleted expense &#34;Test Expense 2&#34;.' in response.data
-    
 
 def test_delete_category(client):
     """ Tests if delete_category feature works correctly. """
@@ -245,8 +245,93 @@ def test_delete_category(client):
     assert b'<strong>Success:</strong> Deleted category &#34;Test Category 2&#34;.' in response.data
 
 
+# Statistics testing starts here
+def create_sample_data_for_statistics():
+    """ 
+        Creates sample data for testing statistics.
+        There should be 11 expenses totaling $101.00. All have the same category and date. 
+    """
+
+    # Creates a sample category and sample date that can be used to create sample expenses
+    sample_category = Category(name='Test Category')
+    sample_category.save()
+    sample_date = datetime.date(2021, 1, 1)
+    
+    # Creates 11 sample expenses, last expense created has a lower amount so it can be tested to see if it is excluded in the top ten highest expenses graph
+    for i in range(10):
+        i += 1
+        new_expense = Expense(name='Expense {}'.format(str(i)), category_id=sample_category.id, amount=10, date=sample_date)
+        new_expense.save()
+    new_expense = Expense(name='Expense 11', category_id=sample_category.id, amount=1, date=sample_date)
+    new_expense.save()
+
+def delete_sample_data_for_statistics():
+    """ Deletes sample data created for testing statistics. """
+    Expense.objects().delete()
+    Category.objects().delete()
+
 def test_statistics(client):
     """ Tests if statistics feature works correctly. """
 
+    # Creates sample expenses that will be used for testing
+    create_sample_data_for_statistics()
+
+    # Tests GET success
     response = client.get('/statistics')
     assert response.status_code == 200
+
+    # Tests if HTML is being returned
+    assert response.content_type == 'text/html; charset=utf-8'
+
+    # Tests if required elements are present
+    titles_headings = ['<title>Statistics - Expenses</title>', '<p class="lead">Total Expendatures: $101.00</p>']
+    graph_1_elements = ["labels: ['Test Category']", 'label: "Category Spending"', "data: ['101.00']", "text: 'Spent per Category'"]
+    graph_2_elements = ["labels: ['Expense 9 on 2021-01-01', 'Expense 10 on 2021-01-01', 'Expense 5 on 2021-01-01', 'Expense 8 on 2021-01-01', 'Expense 6 on 2021-01-01', 'Expense 4 on 2021-01-01', 'Expense 2 on 2021-01-01', 'Expense 1 on 2021-01-01', 'Expense 3 on 2021-01-01', 'Expense 7 on 2021-01-01']",
+                        'label: "Expense Amount"', 'data: [10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0]', "text: 'Top 10 Expenses'"]
+    other_elements = ['navbar', 'footer']
+    elements = titles_headings + graph_1_elements + graph_2_elements + other_elements
+    for element in elements:
+        assert element.encode() in response.data
+    assert b'Expense 11 on 2021-01-01' not in response.data
+
+    # Deletes sample expenses that were used to test statistics
+    delete_sample_data_for_statistics()
+
+def test_get_total_spent():
+    """ Tests if get_total_spent returns the correct total. """
+    
+    # Creates sample expenses that will be used for testing
+    create_sample_data_for_statistics()
+
+    # Compares return values to sample data
+    assert statistics_controller.get_total_spent() == Expense.objects().sum('amount')
+    assert int(statistics_controller.get_total_spent()) == 101
+
+    # Deletes sample expenses that were used for testing
+    delete_sample_data_for_statistics()
+
+def test_get_category_spending_data():
+    """ Tests if get_category_data returns the correct categories. """
+
+    # Creates sample expenses that will be used for testing
+    create_sample_data_for_statistics()
+    
+    # Compares return values to sample data
+    assert statistics_controller.get_category_spending_data() == [{'name': 'Test Category', 'total': '101.00'}]
+
+    # Deletes sample expenses that were used for testing
+    delete_sample_data_for_statistics()
+
+def test_get_top_expenses_data():
+    """ Tests if get_top_expenses returns the correct expenses. """
+
+    # Creates sample expenses that will be used for testing
+    create_sample_data_for_statistics()
+
+    # Compares return values to sample data
+    top_expenses = statistics_controller.get_top_expenses_data()
+    for expense in top_expenses:
+        assert expense['name'] != 'Expense 11'
+
+    # Deletes sample expenses that were used for testing
+    delete_sample_data_for_statistics()
