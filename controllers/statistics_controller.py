@@ -3,7 +3,7 @@ This is the controller for all statistics pages.
 """
 
 
-from flask import render_template
+from flask import render_template, request
 from models import Expense, Category
 
 
@@ -24,7 +24,9 @@ def show_statistics():
         'values': [row['amount'] for row in top_expenses_data]
     }
 
-    return render_template('views/statistics.html', page_name='statistics', page_title='Statistics', total_spent=total_spent, average_expense_amount=average_expense_amount, category_spending=category_spending, top_expenses=top_expenses)
+    date = request.args['date']
+
+    return render_template('views/statistics.html', page_name='statistics', page_title='Statistics', total_spent=total_spent, average_expense_amount=average_expense_amount, category_spending=category_spending, top_expenses=top_expenses,date=date)
 
 
 def get_total_spent():
@@ -66,3 +68,12 @@ def get_top_expenses_data():
         })
 
     return data
+
+# def display_specific_time_graph():
+#     """ displays a certain graph based on the query strings (url parameters) """
+
+#     arg1 = request.args['arg1']
+
+#     return 'Arg1 : ' + arg1
+
+
