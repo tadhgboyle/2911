@@ -284,7 +284,7 @@ def test_statistics(client):
     assert response.content_type == 'text/html; charset=utf-8'
 
     # Tests if required elements are present
-    titles_headings = ['<title>Statistics - Expenses</title>', '<p class="lead">Total Expendatures: $101.00</p>']
+    titles_headings = ['<title>Statistics - Expenses</title>', 'Total Expendatures: $101.00']
     graph_1_elements = ["labels: ['Test Category']", 'label: "Category Spending"', "data: ['101.00']", "text: 'Spent per Category'"]
     graph_2_elements = ["labels: ['Expense 9 on 2021-01-01', 'Expense 10 on 2021-01-01', 'Expense 5 on 2021-01-01', 'Expense 8 on 2021-01-01', 'Expense 6 on 2021-01-01', 'Expense 4 on 2021-01-01', 'Expense 2 on 2021-01-01', 'Expense 1 on 2021-01-01', 'Expense 3 on 2021-01-01', 'Expense 7 on 2021-01-01']",
                         'label: "Expense Amount"', 'data: [10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0]', "text: 'Top 10 Expenses'"]
