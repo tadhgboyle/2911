@@ -32,13 +32,6 @@ jobs:
       - checkout
       - python/install-packages:
           pkg-manager: pip
-      # - run: 
-      #     name: Get Versions
-      #     command: |
-      #         node -v
-      #         npm -v
-      #         mongo -v
-      #         mongo localhost --eval "db.version()"
       - run:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
