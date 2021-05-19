@@ -24,7 +24,6 @@ jobs:
     # Change the version below to your required version of python
     docker:
       - image: cimg/python:3.8
-      - image: circleci/node:12-browsers
       - image: circle/mongo:4.4
         environment:
           MONGO_USERNAME: mongouser
