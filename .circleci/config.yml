@@ -37,13 +37,17 @@ jobs:
       - run:
           name: MongoDB Install
           command: |
-          sudo apt-get install -y mongodb-org-shell
-      - run: 
-          name: Waiting for Mongo
-          command: dockerize -wait tcp://localhost:27017 -timeout 1m
-      - checkout
-      - python/install-packages:
-          pkg-manager: pip
+              sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+              echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+              sudo apt-get update
+              sudo apt-get install -y mongodb-org-shell
+        - setup_remote_docker
+        - run: 
+            name: Waiting for Mongo
+            command: dockerize -wait tcp://localhost:27017 -timeout 1m
+        - checkout
+        - python/install-packages:
+            pkg-manager: pip
       # -run: 
       #   name: Get Versions
       #   command: |
@@ -53,7 +57,7 @@ jobs:
       #       mongo localhost --eval "db.version()"
           # app-dir: ~/project/package-directory/  # If you're requirements.txt isn't in the root directory.
           # pip-dependency-file: test-requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
-      - run:
-          name: Run tests
+        - run:
+            name: Run tests
           # This assumes pytest is installed via the install-package step above
-          command: pytest
+            command: pytest
