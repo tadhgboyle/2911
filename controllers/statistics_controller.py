@@ -68,7 +68,10 @@ def get_average_expense_amount(date, next_date):
             total += expense.amount
             num += 1
 
-    return total / num
+    try:
+        return total / num
+    except ZeroDivisionError:
+        return 0
 
 
 def get_category_spending_data(date, next_date):
