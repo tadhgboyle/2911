@@ -4,12 +4,24 @@
 
 <div class="container">
     <h1 class="m-4">
-        Statistics
-        <p class="lead">
-            Total Expendatures: {{ "$%.2f"|format(total_spent) }}
-            <br>
-            Average Expense Amount: {{ "$%.2f"|format(average_expense_amount) }}
-        </p>
+        <div class="row">
+            <div class="col-10">
+                Statistics
+                <p class="lead">
+                    {% if date is defined %}
+                        Total Expendatures (month of {{ date }}): {{ "$%.2f"|format(total_spent) }}
+                    {% else %}
+                        Total Expendatures: {{ "$%.2f"|format(total_spent) }}
+                    {% endif %}
+                    <br>
+                    Average Expense Amount: {{ "$%.2f"|format(average_expense_amount) }}
+                </p>
+            </div>
+            <div class="col-2">
+                <label for="month" class="form-label">Month</label>
+                <input type="text" class="form-control" id="month" name="month" value="{{ date if date is defined }}">
+            </div>
+        </div>
     </h1>
 
     <div class="row">
@@ -32,6 +44,16 @@
 </style>
 
 <script>
+    $("#month").datepicker({
+            format: "mm-yyyy",
+            startView: "months",
+            minViewMode: "months"
+    });
+
+    $("#month").on('changeDate', function (event) {
+        window.location.href = '{{ statistics_url }}' + '?date=' + event.format();
+    });
+
     const category_spending_elem = document.getElementById("category_spending").getContext("2d")
     const category_spending_chart = new Chart(category_spending_elem, {
         type: "doughnut",
@@ -39,7 +61,6 @@
             labels: {{ category_spending['labels']|safe}},
             datasets: [
                 {
-                    label: "Category Spending",
                     data: {{ category_spending['values']|safe }},
                     borderColor: "rgb(25,25,112)",
                     backgroundColor: [
@@ -58,7 +79,12 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Spent per Category'
+                        text: 
+                            {% if date is defined %}
+                                'Spent per Category (month of {{ date }})'
+                            {% else %}
+                                'Spent per Category'
+                            {% endif %}
                     }
                 }
             }
@@ -99,7 +125,12 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Top 10 Expenses'
+                        text: 
+                            {% if date is defined %}
+                                'Top 10 Expenses (month of {{ date }})'
+                            {% else %}
+                                'Top 10 Expenses'
+                            {% endif %}
                     }
                 }
             }
