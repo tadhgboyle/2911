@@ -8,7 +8,11 @@
             <div class="col-10">
                 Statistics
                 <p class="lead">
-                    Total Expendatures: {{ "$%.2f"|format(total_spent) }}
+                    {% if date is defined %}
+                        Total Expendatures (month of {{ date }}): {{ "$%.2f"|format(total_spent) }}
+                    {% else %}
+                        Total Expendatures: {{ "$%.2f"|format(total_spent) }}
+                    {% endif %}
                     <br>
                     Average Expense Amount: {{ "$%.2f"|format(average_expense_amount) }}
                 </p>
@@ -57,7 +61,6 @@
             labels: {{ category_spending['labels']|safe}},
             datasets: [
                 {
-                    label: "Category Spending",
                     data: {{ category_spending['values']|safe }},
                     borderColor: "rgb(25,25,112)",
                     backgroundColor: [
@@ -76,7 +79,12 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Spent per Category'
+                        text: 
+                            {% if date is defined %}
+                                'Spent per Category (month of {{ date }})'
+                            {% else %}
+                                'Spent per Category'
+                            {% endif %}
                     }
                 }
             }
@@ -117,7 +125,12 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Top 10 Expenses'
+                        text: 
+                            {% if date is defined %}
+                                'Top 10 Expenses (month of {{ date }})'
+                            {% else %}
+                                'Top 10 Expenses'
+                            {% endif %}
                     }
                 }
             }
