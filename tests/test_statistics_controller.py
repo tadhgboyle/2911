@@ -14,7 +14,7 @@ def test_get_total_spent():
 
     # Compares return values to sample data
     assert statistics_controller.get_total_spent(None, None) == Expense.objects().sum('amount')
-    assert int(statistics_controller.get_total_spent(None, None)) == 101
+    assert statistics_controller.get_total_spent(None, None) == 101
     assert statistics_controller.get_total_spent(datetime.date(2021, 1, 1), datetime.date(2021, 2, 1)) == Expense.objects().sum('amount')
     assert statistics_controller.get_total_spent(datetime.date(2021, 1, 1), datetime.date(2021, 2, 1)) == 101
 
