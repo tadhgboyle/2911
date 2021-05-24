@@ -5,10 +5,11 @@ This module contains the method to create the flask application and configures a
 from flask import Flask
 from models import db
 from controllers import expense_controller, category_controller, statistics_controller
+import os
 
 def create_app():
     app = Flask(__name__)
-    app.config['MONGODB_HOST'] = 'mongodb://localhost:27017/2911'
+    app.config['MONGODB_HOST'] = os.getenv('DATABASE_URI', 'mongodb://localhost:27017/2911')
     db.init_app(app)
 
     @app.route('/')
