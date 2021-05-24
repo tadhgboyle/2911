@@ -20,7 +20,7 @@ def show_statistics():
         month = fixed_date.month + 1
         if month == 13:
             month = 1
-        next_date = datetime.strptime('01-' + str(month) + '-' + str(fixed_date.year),'%d-%m-%Y').date()
+        next_date = datetime.strptime('01-' + str(month) + '-' + str(fixed_date.year), '%d-%m-%Y').date()
 
     total_spent = get_total_spent(fixed_date, next_date)
     average_expense_amount = get_average_expense_amount(fixed_date, next_date)
