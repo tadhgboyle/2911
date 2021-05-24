@@ -4,7 +4,7 @@ It then goes through a sequence of tests where CRUD features are tested. All Fla
 """
 
 import pytest
-from app import create_app
+from init import create_app
 from models import Category, Expense
 import datetime
 from .sample_data import create_sample_data, delete_sample_data, delete_existing_data
