@@ -2,7 +2,7 @@
 This module contains the method to create the flask application and configures all forwarding requests.
 """
 
-from flask import Flask, render_template
+from flask import Flask
 from models import db
 from controllers import expense_controller, category_controller, statistics_controller
 
