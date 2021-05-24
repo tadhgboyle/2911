@@ -5,5 +5,8 @@ You will not need to edit this file, likely ever.
 
 from app import create_app
 
-app = create_app()
-app.run(debug=True)
+app = None
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True)
